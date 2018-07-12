@@ -106,8 +106,8 @@ EOF
 stop_nginx() {
     information "stop nginx"
 
-    zmproxyctl stop > /dev/null && \
-      zmmailboxdctl stop > /dev/null || {
+    su -l -c "zmproxyctl stop" zimbra  > /dev/null && \
+      su -l -c "zmmailboxdctl stop" zimbra > /dev/null || {
         error "There were some error during stopping the Zimbra' nginx."
         fix_nginx_message
         return 3
@@ -118,8 +118,8 @@ stop_nginx() {
 start_nginx() {
     information "start nginx"
 
-    zmproxyctl start > /dev/null && \
-      zmmailboxdctl start > /dev/null || {
+    su -l -c "zmproxyctl start" zimbra > /dev/null && \
+      su -l -c "zmmailboxdctl start" zimbra > /dev/null || {
         error "There were some error during starting the Zimbra' nginx."
         fix_nginx_message
         return 3
@@ -138,10 +138,7 @@ restart_zimbra() (
     fi
     export PERLLIB
 
-    zmcontrol restart > /dev/null || {
-        error "Restarting zimbra failed."
-        return 5
-    }
+    su -l -c "zmcontrol restart" zimbra >> /opt/letsencrypt-zimbra/log-restart.log
 )
 
 # this function will constructs openssl csr config to stdout
