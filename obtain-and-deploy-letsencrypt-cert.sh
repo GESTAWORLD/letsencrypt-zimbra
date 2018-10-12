@@ -10,6 +10,8 @@
 set -o nounset
 set -o errexit
 
+startedAt=$(date "+%Y-%m-%d %H:%M:%S")
+
 SCRIPTNAME=${0##*/}
 USAGE="USAGE
     $SCRIPTNAME -h|-V
@@ -155,6 +157,7 @@ assemble_csr_config() {
     done
 }
 
+
 # --------------------------------------------------------------------
 # -- Variables -------------------------------------------------------
 # --------------------------------------------------------------------
@@ -205,6 +208,9 @@ TESTING='false'
 VERBOSE='false'
 FORCE='false'
 DAYS='30'
+
+mkdir -p /var/log/letsencrypt-zimbra
+information "SCRIPT STARTED AT : $startedAt"
 
 # --------------------------------------------------------------------
 # -- Usage -----------------------------------------------------------
@@ -452,3 +458,6 @@ restart_zimbra
 # --------------------------------------------------------------------
 
 cleanup
+
+endedAt=$(date "+%Y-%m-%d %H:%M:%S")
+information "SCRIPT ENDED AT : $endedAt"
