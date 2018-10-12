@@ -10,6 +10,7 @@
 set -o nounset
 set -o errexit
 
+mkdir -p /var/log/letsencrypt-zimbra
 startedAt=$(date "+%Y-%m-%d %H:%M:%S")
 
 SCRIPTNAME=${0##*/}
@@ -209,9 +210,6 @@ VERBOSE='false'
 FORCE='false'
 DAYS='30'
 
-mkdir -p /var/log/letsencrypt-zimbra
-information "SCRIPT STARTED AT : $startedAt"
-
 # --------------------------------------------------------------------
 # -- Usage -----------------------------------------------------------
 # --------------------------------------------------------------------
@@ -266,6 +264,8 @@ shift $(( OPTIND-1 ))
     echo "$USAGE" >&2
     exit 1
 }
+
+information "SCRIPT STARTED AT : $startedAt"
 
 # root CA certificate - zimbra needs it
 if [ "$TESTING" == 'false' ]; then
